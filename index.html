@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="tolya-vrn@yandex.ru">
+		<meta name="publisher" content="Anatolii Ponomarev">
+		<meta name="description" content="Калькулятор тарифов Почты России">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="css/style.css" media="screen" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/jquery-ui.css">
+		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+		<script src="js/script.js"></script>
+		<title>Калькулятор тарифов пересылки Почты России</title>
+	</head>
+	<body>
+		<main id="main">
+			<section class="section-form-russianpost">
+				<form id="form-russianpost" name="form-russianpost" method="post">
+					<fieldset id="postcalc">
+						<legend>Калькулятор тарифов Почты России</legend>
+						<p id="error" style="display:none;">
+							
+						</p>
+						<p class="display-none">
+							<label for="courier">Курьер</label><input type="checkbox" name="courier" id="courier" value="false">
+						</p>
+						<p>
+							<label for="declared-value">Объявленная ценность</label><input type="number" name="declared-value" id="declared-value" step=0.01 value=0.00 min=0.00 />
+						</p>
+						<h5 style="margin:5px 0;font-size:18px;">Линейные размеры</h5>
+						<p>
+							<label for="height">Высота, см.</label><input type="number" name="height " id="height" step=0.01 value=0.00 min=0.00 />
+						</p>
+						<p>
+							<label for="length ">Длина, см.</label><input type="number" name="length  " id="length" step=0.01 value=0.00 min=0.00 />
+						</p>
+						<p>
+							<label for="width ">Ширина, см.</label><input type="number" name="width  " id="width" step=0.01 value=0.00 min=0.00 />
+						</p>
+						<p>
+							<label for="fragile">Отметка 'Осторожно/Хрупко'</label><input type="checkbox" name="fragile" id="fragile" value="true">
+						</p>
+						<p>
+							<label for="index-from">Почтовый индекс отправителя</label><input type="text" name="index-from" id="index-from" pattern="[0-9]{6}" required title="Введите почтовый индекс отправителя" value="200961" disabled />
+						</p>
+						<p>
+							<label for="index-to">Почтовый индекс получателя</label><input type="text" name="index-to" id="index-to" pattern="[0-9]{6}" required title="Введите почтовый индекс получателя" />
+						</p>
+						<p>
+							<label for="mail-category">Категория РПО</label>
+							<select id="mail-category" required>
+								<option value="ORDINARY">Обыкновенное</option>
+								<option value="ORDERED">Заказное</option>
+								<option value="WITH_DECLARED_VALUE">С объявленной ценностью</option>
+								<option value="WITH_DECLARED_VALUE_AND_CASH_ON_DELIVERY">С объявленной ценностью и наложенным платежом</option>
+							</select>
+						</p>
+						<p>
+							<label for="mail-type">Вид РПО</label>
+							<select id="mail-type" required>
+								<option value="POSTAL_PARCEL">Посылка "нестандартная"</option>
+								<option value="ONLINE_PARCEL">Посылка "онлайн"</option>
+								<option value="ONLINE_COURIER">Курьер "онлайн"</option>
+								<option value="EMS">Отправление EMS</option>
+								<option value="EMS_OPTIMAL">EMS оптимальное</option>
+								<option value="LETTER">Письмо</option>
+							</select>
+						</p>
+						<p>
+							<label for="mass">Масса отправления (в граммах)</label><input type="number" name="mass" id="mass" step=1 required value=0 min=1 />
+						</p>
+						<p class="display-none">
+							<label for="payment-method" >Способ оплаты</label>
+							<select id="payment-method" required >
+								<option value="CASHLESS">Безналичный расчет</option>
+								<option value="STAMP">Оплата марками</option>
+								<option value="FRANKING">Франкирование</option>
+							</select>
+						</p>
+						<p class="display-none">
+							<label for="with-order-of-notice">С заказным уведомлением</label><input type="checkbox" name="with-order-of-notice" id="with-order-of-notice" value="false">
+						</p>
+						<p class="display-none">
+							<label for="with-simple-notice">С простым уведомлением</label><input type="checkbox" name="with-simple-notice" id="with-simple-notice" value="false">
+						</p>
+						<p>
+							<label for="btn-submit"></label><input type="submit" id="btn-submit" value="Рассчитать" class="ui-button ui-corner-all ui-widget" />
+						</p>
+					</fieldset>
+					<fieldset id="postresult" style="display:none;">
+						<section id="delivery" class="display-none">
+							<header>
+								Время доставки
+							</header>
+							<article>
+								<p>
+									<label for="delivery-min-days">Минимальное время доставки (дни)</label><span id="delivery-min-days" name="delivery-min-days">123</span>
+								</p>
+								<p>
+									<label for="delivery-max-days">Максимальное время доставки (дни)</label><span id="delivery-max-days" name="delivery-max-days">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="avia" class="display-none">
+							<header>
+								Плата за Авиа-пересылку
+							</header>
+							<article>
+								<p>
+									<label for="avia-rate-rate">Тариф без НДС</label><span id="avia-rate-rate" name="avia-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="avia-rate-vat">НДС</label><span id="avia-rate-vat" name="avia-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="avia-rate-all">Итого</label><span id="avia-rate-all" name="avia-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="fragile" class="display-none">
+							<header>
+								Надбавка за 'Осторожно/Хрупкое'
+							</header>
+							<article>
+								<p>
+									<label for="fragile-rate-rate">Тариф без НДС</label><span id="fragile-rate-rate" name="fragile-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="fragile-rate-vat">НДС</label><span id="fragile-rate-vat" name="fragile-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="fragile-rate-all">Итого</label><span id="fragile-rate-all" name="fragile-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="ground" class="display-none">
+							<header>
+								Плата за пересылку
+							</header>
+							<article>
+								<p>
+									<label for="ground-rate-rate">Тариф без НДС</label><span id="ground-rate-rate" name="ground-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="ground-rate-vat">НДС</label><span id="ground-rate-vat" name="ground-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="ground-rate-all">Итого</label><span id="ground-rate-all" name="ground-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="insurance" class="display-none">
+							<header>
+								Плата за объявленную ценность
+							</header>
+							<article>
+								<p>
+									<label for="insurance-rate-rate">Тариф без НДС</label><span id="insurance-rate-rate" name="insurance-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="insurance-rate-vat">НДС</label><span id="insurance-rate-vat" name="insurance-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="insurance-rate-all">Итого</label><span id="insurance-rate-all" name="insurance-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="notice" class="display-none">
+							<header>
+								Надбавка за уведомление о вручении
+							</header>
+							<article>
+								<p>
+									<label for="notice-rate-rate">Тариф без НДС</label><span id="notice-rate-rate" name="notice-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="notice-rate-vat">НДС</label><span id="notice-rate-vat" name="notice-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="notice-rate-all">Итого</label><span id="notice-rate-all" name="notice-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="oversize" class="display-none">
+							<header>
+								Надбавка за негабарит при весе более 10кг
+							</header>
+							<article>
+								<p>
+									<label for="oversize-rate-rate">Тариф без НДС</label><span id="oversize-rate-rate" name="oversize-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="oversize-rate-vat">НДС</label><span id="oversize-rate-vat" name="oversize-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="oversize-rate-all">Итого</label><span id="oversize-rate-all" name="oversize-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section id="total">
+							<article>
+								<p>
+									<label for="total-rate-rate">Плата всего</label><span id="total-rate-rate" name="total-rate-rate">123</span>
+								</p>
+								<p>
+									<label for="total-rate-vat">Всего НДС</label><span id="total-rate-vat" name="total-rate-vat">123</span>
+								</p>
+								<p>
+									<label for="total-rate-all">Итого</label><span id="total-rate-all" name="total-rate-all">123</span>
+								</p>
+							</article>
+						</section>
+						<section>
+							<a href="javascript:returnCalc();" class="ui-button ui-corner-all ui-widget">Вернуться к калькулятору</a>
+						</section>
+					</fieldset>
+				</form>
+			</section>
+		</main>
+	</body>
+</html>

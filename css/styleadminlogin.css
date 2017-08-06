@@ -1,0 +1,112 @@
+body
+{
+	background: url(../img/bg1.jpg) center center;
+}
+
+main#main
+{
+	margin:0 auto;
+	display:block;
+	width:350px;
+	margin-top:200px;
+}
+
+form#form-russianpost
+{
+	
+}
+
+form#form-russianpost fieldset
+{
+	border-radius:10px;
+	box-shadow: 0 0 60px rgba(0,0,0,0.5);
+	
+}
+
+form#form-russianpost fieldset#postresult
+{
+	
+}
+
+form#form-russianpost fieldset legend
+{
+	padding:5px 10px;
+	border-radius:10px;
+	border:1px solid black;
+	background:white;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;
+}
+
+form#form-russianpost fieldset
+{
+	font-size:18px;
+	font-family:Times New Roman;
+}
+
+form#form-russianpost label 
+{
+	width:100px;
+	display:inline-block;
+	float:left;
+	padding:3px;	
+}
+
+form#form-russianpost input
+{
+	width:170px;
+	padding:5px 8px;
+	border-radius:5px;	
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+form#form-russianpost select
+{
+	width:190px;
+	padding:5px 8px;
+	border-radius:5px;
+}
+
+form#form-russianpost fieldset section#total
+{
+	border-bottom:3px solid grey;
+	border-top:3px solid grey;
+}
+
+form#form-russianpost fieldset section header
+{
+	padding:5px;
+	border-bottom:1px solid grey;
+	border-top:1px solid grey;
+}
+
+form#form-russianpost article p
+{
+	margin:5px;
+}
+
+form#form-russianpost article label
+{
+	padding-left:10px;
+	font-size:14px;
+}
+
+form#form-russianpost span
+{
+	padding:5px 8px;	
+	font-size:14px;
+}
+
+form#form-russianpost section#total article label
+{
+	padding-left:10px;
+	font-size:17px;
+	font-weight:bold;
+}
+
+form#form-russianpost section#total span
+{
+	padding:5px 8px;	
+	font-size:18px;
+	font-weight:bold;
+}
